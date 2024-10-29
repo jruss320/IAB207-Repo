@@ -1,0 +1,207 @@
+/* General Styles */
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f5f5f5;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-weight: bold;
+    color: #333;
+}
+
+p {
+    font-size: 16px;
+    line-height: 1.5;
+    color: #555;
+}
+
+a {
+    text-decoration: none;
+    color: #007bff;
+}
+
+a:hover {
+    text-decoration: underline;
+    color: #0056b3;
+}
+
+/* Header Styles */
+header {
+    background-color: #ffffff;
+    border-bottom: 1px solid #ddd;
+    padding: 10px 0;
+}
+
+header .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+header nav a {
+    font-size: 16px;
+    margin-right: 20px;
+    color: #333;
+}
+
+header nav a:hover {
+    color: #007bff;
+}
+
+/* Footer Styles */
+footer {
+    background-color: #ffffff;
+    padding: 20px 0;
+    border-top: 1px solid #ddd;
+}
+
+footer h5 {
+    color: #333;
+    font-size: 18px;
+}
+
+footer ul {
+    list-style: none;
+    padding: 0;
+}
+
+footer ul li {
+    margin-bottom: 10px;
+}
+
+footer ul li a {
+    color: #007bff;
+}
+
+footer ul li a:hover {
+    color: #0056b3;
+}
+
+.footer-contact ul li {
+    color: #555;
+}
+
+/* Button Styles */
+button, .btn {
+    background-color: #007bff;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+}
+
+button:hover, .btn:hover {
+    background-color: #0056b3;
+    color: #fff;
+}
+
+/* Form Styles */
+form input, form select, form textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+form input:focus, form select:focus, form textarea:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+/* Card Styles */
+.card {
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #fff;
+}
+
+.card img {
+    border-radius: 5px 0 0 5px;
+}
+
+.card-body {
+    padding: 20px;
+}
+
+.card-title {
+    font-size: 24px;
+    color: #333;
+}
+
+/* Comments Section */
+.comment-box {
+    border: 1px solid #ddd;
+    padding: 20px;
+    background-color: #ffffff;
+    margin-bottom: 20px;
+}
+
+.comment-box p {
+    color: #555;
+}
+
+.comment-box .username {
+    font-weight: bold;
+    color: #333;
+}
+
+.comment-box-icon {
+    float: right;
+    font-size: 20px;
+    color: #007bff;
+}
+
+/* Booking History Page */
+.card img {
+    max-width: 100%;
+    height: auto;
+}
+
+/* Page Container */
+.container {
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Book Tickets Button */
+.book-tickets-btn {
+    display: block;
+    background-color: #28a745;
+    color: #fff;
+    text-align: center;
+    padding: 15px 0;
+    font-size: 18px;
+    border-radius: 5px;
+    margin-top: 20px;
+}
+
+.book-tickets-btn:hover {
+    background-color: #218838;
+}
+
+/* Quick Links & Follow Us */
+.quick-links ul, .follow-us ul {
+    display: flex;
+    gap: 10px;
+}
+
+/* Mobile Styles */
+@media (max-width: 768px) {
+    .card img {
+        max-width: 100%;
+        height: auto;
+    }
+    
+    header .container {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    footer .container {
+        text-align: center;
+    }
+}
