@@ -32,3 +32,21 @@ def login():
         else:
             flash(error)
     return render_template('user.html', form=login_form, heading='Login')
+
+@auth_bp.route('/register', methods=['GET', 'POST'])
+def register():
+    form = RegisterForm()
+    if form.validate_on_submit():
+        user_name = form.user_name.data
+        email = form.email.data
+        password = form.password.data
+        hashed_password = generate_password_hash(password).decode('utf-8')
+
+        user = User(name=user_name, email=email, password=hashed_password)
+        db.session.add(user)
+        db.session.commit()
+
+        flash('Registration successful! Please log in.')
+        return redirect(url_for('auth.login'))
+
+    return render_template('user.html', form=form, heading='Register')
