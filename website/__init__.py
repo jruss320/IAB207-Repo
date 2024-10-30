@@ -1,4 +1,5 @@
 # import flask - from 'package' import 'Class'
+import os
 from flask import Flask 
 from flask_bootstrap import Bootstrap5
 from flask_sqlalchemy import SQLAlchemy
@@ -15,7 +16,7 @@ def create_app():
     app.debug = True
     app.secret_key = 'somesecretkey'
     # set the app configuration data 
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///sitedata.sqlite'
+    app.config['SQLALCHEMY_DATABASE_URI'] = f"sqlite:///{os.path.join(app.instance_path, 'sitedata.sqlite')}"
     # initialise db with flask app
     db.init_app(app)
 

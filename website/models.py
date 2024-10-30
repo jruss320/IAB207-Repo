@@ -44,6 +44,3 @@ class Order(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     event_id = db.Column(db.Integer, db.ForeignKey('event.id'), nullable=False)
 
-# To create the tables in your database, run this in the Flask shell:
-# >>> from app import db
-# >>> db.create_all()
