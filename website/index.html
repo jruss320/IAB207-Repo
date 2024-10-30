@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Explore Events</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="static/styles/styles.css" rel="stylesheet">
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="bg-light py-3">
+        <div class="container d-flex justify-content-between align-items-center">
+            <h5 class="card-title">UNIVENTS</h5>
+            <nav>
+                <a href="index.html" class="mx-3 text-dark">Home</a>
+                <a href="#" class="mx-3 text-dark">Events</a>
+                <a href="#" class="mx-3 text-dark">About Us</a>
+                <a href="event_create.html" class="mx-3 text-dark">Create Event</a>
+                <a href="#" class="mx-3 text-dark">Login/Signup</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container mt-4">
+
+        <!-- Search Bar -->
+        <div class="row justify-content-center mb-4">
+            <div class="col-md-8">
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Search events...">
+                    <div class="input-group-append">
+                        <button class="btn btn-success" type="button">Search</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Featured Events (Follow wireframe - therefore 3 total) -->
+        <section class="mb-5">
+            <h2 class="text-center">Featured Events</h2>
+            <div class="row">
+                <div class="col-md-4 mb-4">
+                    <div class="card">
+                        <img src="static/img/campusfest.jpg" class="card-img-top" alt="Event Image">
+                        <div class="card-body">
+                            <h5 class="card-title">Campus Fest 2024: A Weekend to Remember</h5>
+                            <p class="card-text text-success">Tickets Available</p>
+                            <p class="card-text"> March 8, 2024</p>
+                            <p class="card-text">Kick off the semester with a bang! Campus Fest is your ultimate weekend escape filled with live music, student-run food stalls, games, and outdoor movie screenings.</p>
+                            <a href="event_view.html" class="btn btn-primary">Book Tickets</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card">
+                        <img src="static/img/unitrivia.jpg" class="card-img-top" alt="Event Image">
+                        <div class="card-body">
+                            <h5 class="card-title">Quiz-A-Thon: Battle of the Brains</h5>
+                            <p class="card-text text-danger">Tickets Unavailable</p>
+                            <p class="card-text">April 2, 2024</p>
+                            <p class="card-text">Are you a trivia master? Test your knowledge across various subjects and compete with fellow students in this epic quiz competition.</p>
+                            <a href="#" class="btn btn-warning">Learn More</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card">
+                        <img src="static/img/careersexpo.jpg" class="card-img-top" alt="Event Image">
+                        <div class="card-body">
+                            <h5 class="card-title"> Career Expo: Networking for Your Future</h5>
+                            <p class="card-text text-danger">Tickets Unavailable</p>
+                            <p class="card-text">September 12, 2024</p>
+                            <p class="card-text">Prepare for life after uni with our annual Career Expo! Meet representatives from leading companies, attend workshops on CV building, and participate in mock interviews</p>
+                            <a href="#" class="btn btn-warning">Learn More</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Upcoming Events (Follow wireframe - therefore 3 total)-->
+        <section class="mb-5">
+            <h2 class="text-center">Upcoming Events</h2>
+            <div class="row">
+                <div class="col-md-4 mb-4">
+                    <div class="card">
+                        <img src="#" class="card-img-top" alt="Event Image">
+                        <div class="card-body">
+                            <h5 class="card-title">Event Title</h5>
+                            <p class="card-text">Event Date</p>
+                            <p class="card-text">Short Description</p>
+                            <a href="#" class="btn btn-warning">Learn More</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card">
+                        <img src="#" class="card-img-top" alt="Event Image">
+                        <div class="card-body">
+                            <h5 class="card-title">Event Title</h5>
+                            <p class="card-text">Event Date</p>
+                            <p class="card-text">Short Description</p>
+                            <a href="#" class="btn btn-warning">Learn More</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card">
+                        <img src="#" class="card-img-top" alt="Event Image">
+                        <div class="card-body">
+                            <h5 class="card-title">Event Title</h5>
+                            <p class="card-text">Event Date</p>
+                            <p class="card-text">Short Description</p>
+                            <a href="#" class="btn btn-warning">Learn More</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Categories -->
+        <section>
+            <h2 class="text-center mb-4">Categories</h2>
+            <div class="row justify-content-center">
+                <div class="col-md-3 mb-4">
+                    <div class="card text-center">
+                        <div class="card-body">
+                            <h5 class="card-title">Sports</h5>
+                            <a href="#" class="btn btn-secondary">View All</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-4">
+                    <div class="card text-center">
+                        <div class="card-body">
+                            <h5 class="card-title">Music</h5>
+                            <a href="#" class="btn btn-secondary">View All</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-4">
+                    <div class="card text-center">
+                        <div class="card-body">
+                            <h5 class="card-title">Arts</h5>
+                            <a href="#" class="btn btn-secondary">View All</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-light py-4 text-center">
+        <p>&copy; 2024 Univents. All rights reserved. Product of Joshua Burgess (n11597275)</p>
+    </footer>
+
+    <!-- Bootstrap JS, Popper.js, and jQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

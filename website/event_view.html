@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Details</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="static/styles/styles.css" rel="stylesheet">
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="bg-light py-3">
+        <div class="container d-flex justify-content-between align-items-center">
+            <h5 class="card-title">UNIVENTS</h5>
+            <nav>
+                <a href="index.html" class="mx-3 text-dark">Home</a>
+                <a href="#" class="mx-3 text-dark">Events</a>
+                <a href="event_create.html" class="mx-3 text-dark">Create Event</a>
+                <a href="#" class="mx-3 text-dark">My Events</a>
+                <a href="user_bookings.html" class="mx-3 text-dark">Profile</a>
+            </nav>
+            <form class="form-inline">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+            </form>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container mt-4">
+        <div class="row">
+            <!-- Event Details -->
+            <div class="col-md-8">
+                <h2>Campus Fest 2024: A Weekend to Remember</h2>
+                <img src="static/img/campusfest.jpg" alt="Event Image" class="img-fluid mb-3">
+                <ul class="list-unstyled">
+                    <li><strong>Event Date:</strong> March 8, 2024</li>
+                    <li><strong>Event Time:</strong> 8:00 AM - 5:00 PM</li>
+                    <li><strong>Event Location:</strong> Gardens Point, Brisbane</li>
+                    <li><strong>Organizer Name:</strong> QUTGuild</li>
+                    <li><strong>Number of Attendees:</strong> 1540</li>
+                </ul>
+                <p><strong>Event Description:</strong> Kick off the semester with a bang! Campus Fest is your ultimate weekend escape filled with live music, student-run food stalls, games, and outdoor movie screenings. Get ready for three days of nonstop fun, meeting new friends, and making unforgettable memories.
+                Ideal For: First-year students, social butterflies, and anyone looking to break the ice.</p>
+
+                <!-- Ticket Booking Form -->
+                <h4>Book Tickets</h4>
+                <form class="mb-4">
+                    <div class="form-group">
+                        <label for="ticketQuantity">Number of Tickets</label>
+                        <input type="number" id="ticketQuantity" class="form-control" placeholder="Enter number of tickets" min="1" max="10">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Book Tickets</button>
+                </form>
+
+                <!-- Comments Section -->
+                <h4>Comments</h4>
+                <div class="media mb-3">
+                    <img src="static/img/user.png" class="mr-3" alt="User Avatar" style="width:50px;">
+                    <div class="media-body">
+                        <h5 class="mt-0">Burgo159</h5>
+                        Can't Wait! Very excited to see all the university socities.
+                    </div>
+                </div>
+                <div class="media mb-3">
+                    <img src="static/img/user.png" class="mr-3" alt="User Avatar" style="width:50px;">
+                    <div class="media-body">
+                        <h5 class="mt-0">Craig61 TEST</h5>
+                        Wondering if there is any gluten free food options available?
+                    </div>
+                </div>
+            </div>
+
+            <!-- Related Events -->
+            <div class="col-md-4">
+                <h4>Related Events</h4>
+                <div class="card mb-3">
+                    <img src="static/img/unitrivia.jpg" class="card-img-top" alt="Related Event Image">
+                    <div class="card-body">
+                        <h5 class="card-title">Quiz-A-Thon: Battle of the Brains</h5>
+                        <p class="card-text"><strong>Event Date:</strong> April 2, 2024</p>
+                        <p class="card-text"><strong>Event Location:</strong> Bot Bar, Gardens Point</p>
+                        <a href="#" class="btn btn-primary">Learn More</a>
+                    </div>
+                </div>
+                <div class="card mb-3">
+                    <img src="static/img/careersexpo.jpg" class="card-img-top" alt="Related Event Image">
+                    <div class="card-body">
+                        <h5 class="card-title"> Career Expo: Networking for Your Future</h5>
+                        <p class="card-text"><strong>Event Date:</strong> September 12, 2024</p>
+                        <p class="card-text"><strong>Event Location:</strong> QUT, Kelvin Grove</p>
+                        <a href="#" class="btn btn-primary">Learn More</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-light py-4 text-center mt-4">
+        <div class="container">
+            <a href="#" class="mx-2">About Us</a>
+            <a href="#" class="mx-2">Contact Us</a>
+            <a href="#" class="mx-2">Privacy Policy</a>
+            <a href="#" class="mx-2">Terms of Service</a>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS, Popper.js, and jQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
