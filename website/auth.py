@@ -37,16 +37,22 @@ def login():
 def register():
     form = RegisterForm()
     if form.validate_on_submit():
-        user_name = form.user_name.data
-        email = form.email.data
-        password = form.password.data
-        hashed_password = generate_password_hash(password).decode('utf-8')
-
-        user = User(name=user_name, email=email, password=hashed_password)
+        # Collect form data
+        user = User(
+            first_name=form.first_name.data,
+            last_name=form.last_name.data,
+            name=form.user_name.data,
+            email=form.email.data,
+            password=generate_password_hash(form.password.data).decode('utf-8'),
+            contact_number=form.contact_number.data,
+            street_address=form.street_address.data
+        )
+        
+        # Save to the database
         db.session.add(user)
         db.session.commit()
-
+        
         flash('Registration successful! Please log in.')
         return redirect(url_for('auth.login'))
 
-    return render_template('user.html', form=form, heading='Register')
+    return render_template('signup.html', form=form, heading='Sign Up')
