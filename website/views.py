@@ -45,3 +45,8 @@ def event_view(event_id):
     # Fetch related events (this is just a placeholder logic)
     related_events = Event.query.filter(Event.id != event_id).limit(2).all()
     return render_template('event_view.html', event=event, related_events=related_events)
+
+@main_bp.route('/events')
+def event_list():
+    events = Event.query.all()
+    return render_template('event_list.html', events=events)

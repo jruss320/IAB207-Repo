@@ -58,7 +58,7 @@
                             <p class="card-text {% if event.status == 'Available' %}text-success{% else %}text-danger{% endif %}">{{ event.status == 'Available' and "Tickets Available" or "Tickets Unavailable" }}</p>
                             <p class="card-text">{{ event.date }}</p>
                             <p class="card-text">{{ event.description }}</p>
-                            <a href="event_view.html" class="btn {% if event.status == 'Available' %}btn-primary{% else %}btn-warning{% endif %}">Learn More</a>
+                            <a href="{{ url_for('main.event_view', event_id=event.id) }}" class="btn {% if event.status == 'Available' %}btn-primary{% else %}btn-warning{% endif %}">Learn More</a>
                         </div>
                     </div>
                 </div>
@@ -78,7 +78,7 @@
                             <h5 class="card-title">{{ event.name }}</h5>
                             <p class="card-text">{{ event.date }}</p>
                             <p class="card-text">{{ event.description }}</p>
-                            <a href="#" class="btn btn-warning">Learn More</a>
+                            <a href="{{ url_for('main.event_view', event_id=event.id) }}" class="btn btn-warning">Learn More</a>
                         </div>
                     </div>
                 </div>
