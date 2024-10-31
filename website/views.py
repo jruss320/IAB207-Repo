@@ -18,27 +18,53 @@ def index():
 def event_create():
     form = EventForm()  # Create an instance of your form
     
-    if request.method == 'POST' and form.validate_on_submit():  # Ensure form validation
+    if request.method == 'POST': # and form.validate_on_submit():  # Ensure form validation
         print("Form submitted successfully!")  # Debugging line
         print("Form data:", form.data)  # Print form data
 
         # Retrieve form data directly from the form instance
+        # Extract data from the form
+        name = form.name.data
+        description = form.description.data
+        category = form.category.data
+        image_file = form.image.data  # Corrected reference to image upload field
+        location_name = form.location_name.data
+        address = form.address.data
+        city = form.city.data
+        state = form.state.data
+        zip_code = form.zip_code.data
+        start_date = form.start_date.data
+        start_time = form.start_time.data
+        end_date = form.end_date.data
+        end_time = form.end_time.data
+        user_id = current_user.id
+
+        # Handle the image upload
+        if image_file:
+            filename = secure_filename(image_file.filename)
+            file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+            image_file.save(file_path)  # Save the file locally
+            image_url = f"/{file_path}"  # Generate URL to save in DB
+        else:
+            image_url = None  # Or a default image URL if preferred
+        
+        # Insert into the database
         new_event = Event(
-            name=form.name.data,
-            description=form.description.data,
-            category=form.category.data,
-            image_url=form.image_url.data,  # This may need special handling for file uploads
-            status="Open",  # Default status
-            location_name=form.location_name.data,
-            address=form.address.data,
-            city=form.city.data,
-            state=form.state.data,
-            zip_code=form.zip_code.data,
-            start_date=form.start_date.data,
-            start_time=form.start_time.data,
-            end_date=form.end_date.data,
-            end_time=form.end_time.data,
-            user_id=current_user.id  # Automatically assign creator as logged-in user
+            name=name,
+            description=description,
+            category=category,
+            image_url=image_url,
+            status='pending',  # Provide a default status here
+            location_name=location_name,
+            address=address,
+            city=city,
+            state=state,
+            zip_code=zip_code,
+            start_date=start_date,
+            start_time=start_time,
+            end_date=end_date,
+            end_time=end_time,
+            user_id=user_id
         )
 
         # Add to database
