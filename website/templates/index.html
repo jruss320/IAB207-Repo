@@ -18,7 +18,7 @@
             <nav>
                 <a href="{{ url_for('main.index') }}" class="mx-3 text-dark">Home</a>
                 <a href="{{ url_for('main.event_view') }}" class="mx-3 text-dark">Events</a>
-               <!-- <a href="{{ url_for('main.about') }}" class="mx-3 text-dark">About Us</a> -->
+                <a href="{{ url_for('main.about') }}" class="mx-3 text-dark">About Us</a>
     
                 {% if current_user.is_authenticated %}
                     <a href="{{ url_for('main.event_create') }}" class="mx-3 text-dark">Create Event</a>

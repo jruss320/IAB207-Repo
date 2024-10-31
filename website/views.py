@@ -29,3 +29,29 @@ def event_create():
         flash('Event created successfully!')
         return redirect(url_for('main.index'))
     return render_template('event_create.html', form=form)
+
+# About Page Route
+@main_bp.route('/about')
+def about():
+    return render_template('about.html')  # Renders an About Us page
+
+# Event View Route (for viewing details of a specific event)
+@main_bp.route('/event/<int:event_id>')
+def event_view(event_id):
+    # Retrieve the event by ID
+    event = db.session.get(Event, event_id)
+    if not event:
+        flash('Event not found.')
+        return redirect(url_for('main.index'))
+    return render_template('event_view.html', event=event)  # Renders the Event View page
+
+@main_bp.route('/event/<int:event_id>')
+def event_view(event_id):
+    event = db.session.get(Event, event_id)
+    if not event:
+        flash('Event not found.')
+        return redirect(url_for('main.index'))
+    
+    # Fetch related events (this is just a placeholder logic)
+    related_events = Event.query.filter(Event.id != event_id).limit(2).all()
+    return render_template('event_view.html', event=event, related_events=related_events)
