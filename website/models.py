@@ -8,7 +8,7 @@ class User(db.Model, UserMixin):
     first_name = db.Column(db.String(50), nullable=False)
     last_name = db.Column(db.String(50), nullable=False)
     email = db.Column(db.String(100), unique=True, nullable=False)
-    password = db.Column(db.String(100), nullable=False)
+    password_hash = db.Column(db.String(100), nullable=False)
     contact_number = db.Column(db.String(15), nullable=False)
     street_address = db.Column(db.String(150), nullable=False)
     events = db.relationship('Event', backref='owner', lazy=True)
