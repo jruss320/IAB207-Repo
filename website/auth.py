@@ -10,8 +10,6 @@ auth_bp = Blueprint('auth', __name__)
 
 # this is a hint for a login function
 @auth_bp.route('/login', methods=['GET', 'POST'])
-# view function
-@auth_bp.route('/login', methods=['GET', 'POST'])
 def login():
     login_form = LoginForm()
     error = None
@@ -46,7 +44,7 @@ def register():
             last_name=register_form.last_name.data,
             name=register_form.user_name.data,
             email=register_form.email.data,
-            password=generate_password_hash(register_form.password.data).decode('utf-8'),
+            password_hash=generate_password_hash(register_form.password.data).decode('utf-8'),
             contact_number=register_form.contact_number.data,
             street_address=register_form.street_address.data
         )
