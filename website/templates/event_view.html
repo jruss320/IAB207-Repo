@@ -3,100 +3,45 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Event Details</title>
-    <!-- Bootstrap CSS -->
+    <title>All Events</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Custom CSS -->
     <link href="{{ url_for('static', filename='styles/styles.css') }}" rel="stylesheet">
 </head>
 <body>
 
-    <!-- Header -->
+    <!-- Header and Navigation -->
     <header class="bg-light py-3">
-        <div class="container d-flex justify-content-between align-items-center">
+        <div class="container">
             <h5 class="card-title">UNIVENTS</h5>
-            <nav>
-                <a href="{{ url_for('main.index') }}" class="mx-3 text-dark">Home</a>
-                <a href="{{ url_for('main.event_view', event_id=event.id) }}" class="mx-3 text-dark">Events</a>
-                <a href="{{ url_for('main.event_create') }}" class="mx-3 text-dark">Create Event</a>
-                <a href="{{ url_for('main.user_bookings') }}" class="mx-3 text-dark">Profile</a>
-            </nav>
-            <form class="form-inline">
-                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-            </form>
+            <a href="{{ url_for('main.index') }}" class="mx-3 text-dark">Home</a>
+            <a href="{{ url_for('main.event_view') }}" class="mx-3 text-dark">Events</a>
+            <a href="{{ url_for('main.event_create') }}" class="mx-3 text-dark">Create Event</a>
         </div>
     </header>
 
     <!-- Main Content -->
     <div class="container mt-4">
+        <h2 class="text-center">All Events</h2>
         <div class="row">
-            <!-- Event Details -->
-            <div class="col-md-8">
-                <h2>{{ event.name }}</h2>
-                <img src="{{ url_for('static', filename='img/campusfest.jpg') }}" alt="Event Image" class="img-fluid mb-3">
-                <ul class="list-unstyled">
-                    <li><strong>Event Date:</strong> {{ event.date.strftime('%B %d, %Y') }}</li>
-                    <li><strong>Event Location:</strong> {{ event.location }}</li>
-                    <li><strong>Organizer Name:</strong> {{ event.organizer }}</li>
-                    <li><strong>Number of Attendees:</strong> {{ event.attendees }}</li>
-                </ul>
-                <p><strong>Event Description:</strong> {{ event.description }}</p>
-
-                <!-- Ticket Booking Form -->
-                <h4>Book Tickets</h4>
-                <form class="mb-4">
-                    <div class="form-group">
-                        <label for="ticketQuantity">Number of Tickets</label>
-                        <input type="number" id="ticketQuantity" class="form-control" placeholder="Enter number of tickets" min="1" max="10">
-                    </div>
-                    <button type="submit" class="btn btn-primary">Book Tickets</button>
-                </form>
-
-                <!-- Comments Section -->
-                <h4>Comments</h4>
-                {% for comment in event.comments %}
-                <div class="media mb-3">
-                    <img src="{{ url_for('static', filename='img/user.png') }}" class="mr-3" alt="User Avatar" style="width:50px;">
-                    <div class="media-body">
-                        <h5 class="mt-0">{{ comment.user_name }}</h5>
-                        {{ comment.content }}
-                    </div>
-                </div>
-                {% endfor %}
-            </div>
-
-            <!-- Related Events -->
-            <div class="col-md-4">
-                <h4>Related Events</h4>
-                {% for related_event in related_events %}
-                <div class="card mb-3">
-                    <img src="{{ url_for('static', filename='img/unitrivia.jpg') }}" class="card-img-top" alt="Related Event Image">
+            {% for event in events %}
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <img src="{{ event.image_url or url_for('static', filename='img/default_event.jpg') }}" class="card-img-top" alt="Event Image">
                     <div class="card-body">
-                        <h5 class="card-title">{{ related_event.name }}</h5>
-                        <p class="card-text"><strong>Event Date:</strong> {{ related_event.date.strftime('%B %d, %Y') }}</p>
-                        <p class="card-text"><strong>Event Location:</strong> {{ related_event.location }}</p>
-                        <a href="{{ url_for('main.event_view', event_id=related_event.id) }}" class="btn btn-primary">Learn More</a>
+                        <h5 class="card-title">{{ event.name }}</h5>
+                        <p class="card-text">{{ event.date.strftime('%B %d, %Y') }}</p>
+                        <p class="card-text">{{ event.description[:100] }}...</p>
+                        <a href="{{ url_for('main.event_detail', event_id=event.id) }}" class="btn btn-primary">View Details</a>
                     </div>
                 </div>
-                {% endfor %}
             </div>
+            {% endfor %}
         </div>
     </div>
 
     <!-- Footer -->
-    <footer class="bg-light py-4 text-center mt-4">
-        <div class="container">
-            <a href="{{ url_for('main.about') }}" class="mx-2">About Us</a>
-            <a href="#" class="mx-2">Contact Us</a>
-            <a href="#" class="mx-2">Privacy Policy</a>
-            <a href="#" class="mx-2">Terms of Service</a>
-        </div>
+    <footer class="bg-light py-4 text-center">
+        <p>&copy; 2024 Univents. All rights reserved.</p>
     </footer>
-
-    <!-- Bootstrap JS, Popper.js, and jQuery -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
