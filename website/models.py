@@ -19,14 +19,36 @@ class User(db.Model, UserMixin):
 # Event Model
 class Event(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    
+    # Event details
     name = db.Column(db.String(100), nullable=False)
     description = db.Column(db.Text, nullable=False)
-    date = db.Column(db.DateTime, nullable=False)
+    category = db.Column(db.String(50), nullable=False)
     image_url = db.Column(db.String(200), nullable=True)
     status = db.Column(db.String(20), nullable=False)  # 'Open', 'Inactive', 'Sold Out', 'Cancelled'
+    
+    # Location details
+    location_name = db.Column(db.String(100), nullable=False)
+    address = db.Column(db.String(200), nullable=False)
+    city = db.Column(db.String(50), nullable=False)
+    state = db.Column(db.String(50), nullable=False)
+    zip_code = db.Column(db.String(20), nullable=False)
+
+    # Date and time details
+    start_date = db.Column(db.Date, nullable=False)
+    start_time = db.Column(db.Time, nullable=False)
+    end_date = db.Column(db.Date, nullable=False)
+    end_time = db.Column(db.Time, nullable=False)
+
+    # Event creator
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    
+    # Relationships
     comments = db.relationship('Comment', backref='event', lazy=True)
     orders = db.relationship('Order', backref='event', lazy=True)
+
+    def __repr__(self):
+        return f"<Event {self.name}>"
 
 # Comment Model
 class Comment(db.Model):

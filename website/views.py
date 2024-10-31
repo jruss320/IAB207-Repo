@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, redirect, url_for, flash
+from flask import Blueprint, render_template, request, redirect, url_for, flash
 from flask_login import login_required, current_user
 from .forms import EventForm
 from .models import Event
@@ -13,22 +13,46 @@ def index():
     # Render the 'index.html' template with the events data
     return render_template('index.html', events=events)
 
-@main_bp.route('/event_create', methods=['GET', 'POST'])
+@main_bp.route('/event/create', methods=['GET', 'POST'])
 @login_required
 def event_create():
-    form = EventForm()
-    if form.validate_on_submit():
-        event = Event(
+    form = EventForm()  # Create an instance of your form
+    
+    if request.method == 'POST' and form.validate_on_submit():  # Ensure form validation
+        print("Form submitted successfully!")  # Debugging line
+        print("Form data:", form.data)  # Print form data
+
+        # Retrieve form data directly from the form instance
+        new_event = Event(
             name=form.name.data,
             description=form.description.data,
-            date=form.date.data,
-            user_id=current_user.id  # Assuming Event has a user_id field to track ownership
+            category=form.category.data,
+            image_url=form.image_url.data,  # This may need special handling for file uploads
+            status="Open",  # Default status
+            location_name=form.location_name.data,
+            address=form.address.data,
+            city=form.city.data,
+            state=form.state.data,
+            zip_code=form.zip_code.data,
+            start_date=form.start_date.data,
+            start_time=form.start_time.data,
+            end_date=form.end_date.data,
+            end_time=form.end_time.data,
+            user_id=current_user.id  # Automatically assign creator as logged-in user
         )
-        db.session.add(event)
-        db.session.commit()
-        flash('Event created successfully!')
-        return redirect(url_for('main.index'))
-    return render_template('event_create.html', form=form)
+
+        # Add to database
+        db.session.add(new_event)
+        try:
+            db.session.commit()  # Try committing to the database
+            flash('Event created successfully!', 'success')
+            return redirect(url_for('main.index'))
+        except Exception as e:
+            print("Error committing to the database:", e)  # Debugging line
+            db.session.rollback()  # Roll back the session on error
+            flash('Error creating event. Please try again.', 'danger')
+        
+    return render_template('event_create.html', form=form)  # Pass the form to the template
 
 # About Page Route
 @main_bp.route('/about')

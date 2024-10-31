@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms.fields import TextAreaField, SubmitField, StringField, PasswordField, DateTimeField
+from wtforms.fields import TextAreaField, SubmitField, StringField, SelectField, FileField, PasswordField, DateTimeField
 from wtforms.validators import InputRequired, Length, Email, EqualTo, DataRequired
 
 # creates the login information
@@ -22,6 +22,21 @@ class RegisterForm(FlaskForm):
 
 class EventForm(FlaskForm):
     name = StringField('Event Name', validators=[DataRequired()])
-    description = TextAreaField('Description', validators=[DataRequired()])
-    date = DateTimeField('Event Date', format='%Y-%m-%d %H:%M:%S', validators=[DataRequired()])
+    description = TextAreaField('Event Description', validators=[DataRequired()])
+    category = SelectField('Event Category', choices=[
+        ('Sports', 'Sports'),
+        ('Music', 'Music'),
+        ('Arts', 'Arts'),
+        ('Technology', 'Technology')
+    ], validators=[DataRequired()])
+    image_url = FileField('Event Image')  # Adjust this if you want to handle the image upload differently
+    location_name = StringField('Location Name', validators=[DataRequired()])
+    address = StringField('Address', validators=[DataRequired()])
+    city = StringField('City', validators=[DataRequired()])
+    state = StringField('State', validators=[DataRequired()])
+    zip_code = StringField('Zip Code', validators=[DataRequired()])
+    start_date = DateTimeField('Start Date', format='%Y-%m-%d', validators=[DataRequired()])
+    start_time = DateTimeField('Start Time', format='%H:%M:%S', validators=[DataRequired()])
+    end_date = DateTimeField('End Date', format='%Y-%m-%d', validators=[DataRequired()])
+    end_time = DateTimeField('End Time', format='%H:%M:%S', validators=[DataRequired()])
     submit = SubmitField('Create Event')
