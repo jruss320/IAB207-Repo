@@ -10,12 +10,12 @@ class LoginForm(FlaskForm):
 
  # this is the registration form
 class RegisterForm(FlaskForm):
-    user_name=StringField("User Name", validators=[InputRequired()])
-    email = StringField("Email Address", validators=[Email("Please enter a valid email")])
-    # linking two fields - password should be equal to data entered in confirm
-    password=PasswordField("Password", validators=[InputRequired(),
-                  EqualTo('confirm', message="Passwords should match")])
+    first_name = StringField("First Name", validators=[InputRequired("Please enter your first name.")])
+    last_name = StringField("Last Name", validators=[InputRequired("Please enter your last name.")])
+    user_name = StringField("User Name", validators=[InputRequired()])
+    email = StringField("Email Address", validators=[Email("Please enter a valid email.")])
+    password = PasswordField("Password", validators=[InputRequired(), EqualTo('confirm', message="Passwords should match")])
     confirm = PasswordField("Confirm Password")
-
-    # submit button
+    contact_number = StringField("Contact Number", validators=[Length(10, 15, "Please enter a valid contact number.")])
+    street_address = StringField("Street Address", validators=[InputRequired("Please enter your address.")])
     submit = SubmitField("Register")
