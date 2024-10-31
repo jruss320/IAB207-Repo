@@ -4,7 +4,7 @@ from flask_login import UserMixin
 
 # User Model
 class User(db.Model, UserMixin):
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     first_name = db.Column(db.String(50), nullable=False)
     last_name = db.Column(db.String(50), nullable=False)
     email = db.Column(db.String(100), unique=True, nullable=False)
@@ -18,7 +18,7 @@ class User(db.Model, UserMixin):
 
 # Event Model
 class Event(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     name = db.Column(db.String(100), nullable=False)
     description = db.Column(db.Text, nullable=False)
     date = db.Column(db.DateTime, nullable=False)
@@ -30,18 +30,17 @@ class Event(db.Model):
 
 # Comment Model
 class Comment(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     content = db.Column(db.Text, nullable=False)
-    date_posted = db.Column(db.DateTime, default=datetime)
+    date_posted = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     event_id = db.Column(db.Integer, db.ForeignKey('event.id'), nullable=False)
 
 # Order Model
 class Order(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    order_date = db.Column(db.DateTime, default=datetime)
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    order_date = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
     quantity = db.Column(db.Integer, nullable=False)
     price = db.Column(db.Float, nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     event_id = db.Column(db.Integer, db.ForeignKey('event.id'), nullable=False)
-
