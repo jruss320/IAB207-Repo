@@ -16,7 +16,7 @@ def login():
     if login_form.validate_on_submit():
         user_name = login_form.user_name.data
         password = login_form.password.data
-        user = db.session.scalar(db.select(User).where(User.name == user_name))
+        user = db.session.scalar(db.select(User).where(User.user_name == user_name))
         
         if user is None:
             error = 'Incorrect user name'
@@ -42,7 +42,7 @@ def register():
         user = User(
             first_name=register_form.first_name.data,
             last_name=register_form.last_name.data,
-            name=register_form.user_name.data,
+            user_name=register_form.user_name.data,
             email=register_form.email.data,
             password_hash=generate_password_hash(register_form.password.data).decode('utf-8'),
             contact_number=register_form.contact_number.data,
@@ -57,3 +57,10 @@ def register():
         return redirect(url_for('auth.login'))
 
     return render_template('signup.html', form=register_form, heading='Sign Up')
+
+@auth_bp.route('/logout')
+@login_required
+def logout():
+    logout_user()
+    flash('You have been logged out.')
+    return redirect(url_for('auth.login'))

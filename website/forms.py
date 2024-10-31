@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
-from wtforms.fields import TextAreaField, SubmitField, StringField, PasswordField
-from wtforms.validators import InputRequired, Length, Email, EqualTo
+from wtforms.fields import TextAreaField, SubmitField, StringField, PasswordField, DateTimeField
+from wtforms.validators import InputRequired, Length, Email, EqualTo, DataRequired
 
 # creates the login information
 class LoginForm(FlaskForm):
@@ -19,3 +19,9 @@ class RegisterForm(FlaskForm):
     contact_number = StringField("Contact Number", validators=[Length(10, 15, "Please enter a valid contact number.")])
     street_address = StringField("Street Address", validators=[InputRequired("Please enter your address.")])
     submit = SubmitField("Register")
+
+class EventForm(FlaskForm):
+    name = StringField('Event Name', validators=[DataRequired()])
+    description = TextAreaField('Description', validators=[DataRequired()])
+    date = DateTimeField('Event Date', format='%Y-%m-%d %H:%M:%S', validators=[DataRequired()])
+    submit = SubmitField('Create Event')
