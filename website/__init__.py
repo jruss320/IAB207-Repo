@@ -5,7 +5,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from flask_migrate import Migrate
 
-# Initialize extensions
+# Initialise extensions
 db = SQLAlchemy()
 migrate = Migrate()  # Create Migrate instance
 
@@ -18,7 +18,7 @@ def create_app():
     app.config['SQLALCHEMY_DATABASE_URI'] = f"sqlite:///{os.path.join(app.instance_path, 'sitedata.sqlite')}"
     app.config['UPLOAD_FOLDER'] = os.path.join('website', 'static', 'uploads')  # Path for image uploads
 
-    # Initialize extensions
+    # Initialise extensions
     db.init_app(app)
     migrate.init_app(app, db)  # Initialize Flask-Migrate with app and db
 
