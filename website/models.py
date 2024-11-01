@@ -53,21 +53,21 @@ class Event(db.Model):
         # Method to check if the event is in the past or sold out
     def update_status(self):
         if self.status != 'Cancelled':
-            if self.start_date < datetime.utcnow().date():
+            if self.start_date < datetime().date():
                 self.status = 'Inactive'
 
 # Comment Model
 class Comment(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     content = db.Column(db.Text, nullable=False)
-    date_posted = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
+    date_posted = db.Column(db.DateTime, default=datetime, nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     event_id = db.Column(db.Integer, db.ForeignKey('event.id'), nullable=False)
 
 # Order Model
 class Order(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    order_date = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
+    order_date = db.Column(db.DateTime, default=datetime, nullable=False)
     quantity = db.Column(db.Integer, nullable=False)
     price = db.Column(db.Float, nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
