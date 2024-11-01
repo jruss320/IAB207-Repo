@@ -86,8 +86,19 @@ def about():
 
 @main_bp.route('/events')
 def event_view():
-    events = Event.query.all()  # Fetch all events
-    return render_template('event_view.html', events=events)
+    search_query = request.args.get('search_query')
+    category = request.args.get('category')
+    if search_query:
+        # Fetch events based on the search query
+        events = Event.query.filter(Event.name.ilike(f'%{search_query}%')).all()
+    elif category:
+        # Fetch events based on the category
+        events = Event.query.filter_by(category=category).all()
+    else:
+        # Fetch all events if no search query or category is provided
+        events = Event.query.all()
+
+    return render_template('event_view.html', events=events, category=category, search_query=search_query)
 
 
 @main_bp.route('/event/<int:event_id>')
@@ -107,3 +118,16 @@ def events_by_category(category):
         flash(f'No events found in the "{category}" category.')
         return redirect(url_for('main.event_view'))
     return render_template('event_view.html', events=events, category=category)
+
+@main_bp.route('/search')
+def search():
+    query = request.args.get('q', '')  # Get the search query from the URL parameters
+    if query:
+        # Search for events where the name or description contains the query string
+        events = Event.query.filter(
+            (Event.name.ilike(f"%{query}%")) | (Event.description.ilike(f"%{query}%"))
+        ).all()
+    else:
+        events = []  # No results if the query is empty
+
+    return render_template('event_view.html', events=events, search_query=query)
