@@ -55,7 +55,6 @@ class Event(db.Model):
         if self.status != 'Cancelled':
             if self.start_date < datetime.utcnow().date():
                 self.status = 'Inactive'
-            # Add logic for sold-out status if needed
 
 # Comment Model
 class Comment(db.Model):
