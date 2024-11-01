@@ -13,7 +13,7 @@
         <div class="container">
             <h5 class="card-title">UNIVENTS</h5>
             <a href="{{ url_for('main.index') }}" class="mx-3 text-dark">Home</a>
-            <a href="{{ url_for('main.booking_history') }}" class="mx-3 text-dark">Booking History</a>
+            <a href="{{ url_for('main.user_bookings') }}" class="mx-3 text-dark">Booking History</a>
         </div>
     </header>
 
@@ -34,7 +34,7 @@
                     <tr>
                         <td><a href="{{ url_for('main.event_detail', event_id=order.event.id) }}">{{ order.event.name }}</a></td>
                         <td>{{ order.quantity }}</td>
-                        <td>{{ order.date_created.strftime('%B %d, %Y') }}</td>
+                        <td>{{ order.order_date.strftime('%B %d, %Y') }}</td>
                         <td>${{ order.price }}</td>
                     </tr>
                     {% endfor %}
