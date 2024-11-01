@@ -16,7 +16,7 @@ def create_app():
    app.debug = True  # Should be set to false in a production environment
    app.secret_key = 'somesecretkey'
    app.config['SQLALCHEMY_DATABASE_URI'] = f"sqlite:///{os.path.join(app.instance_path, 'sitedata.sqlite')}"
-   app.config['UPLOAD_FOLDER'] = 'website/static/uploads'
+   app.config['UPLOAD_FOLDER'] = os.path.join('website', 'static', 'uploads')  # Path for image uploads
 
    # Initialize extensions
    db.init_app(app)
