@@ -237,3 +237,10 @@ def event_cancel(event_id):
     flash('Event has been cancelled.', 'info')
     return redirect(url_for('main.event_detail', event_id=event.id))
 
+@main_bp.route('/user_bookings')
+@login_required
+def user_bookings():
+    # Query orders for the current user
+    orders = Order.query.filter_by(user_id=current_user.id).all()
+    return render_template('user_bookings.html', orders=orders)
+
