@@ -47,7 +47,7 @@ class Event(db.Model):
     price_per_ticket = db.Column(db.Float, nullable=False, default=0.0)
     
     # Relationships
-    comments = db.relationship('Comment', backref='event', lazy=True)  # Keep this line
+    comments = db.relationship('Comment', backref='event', lazy=True) 
     orders = db.relationship('Order', backref='event', lazy=True)
 
     def __repr__(self):

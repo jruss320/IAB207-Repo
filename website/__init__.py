@@ -20,11 +20,11 @@ def create_app():
 
     # Initialise extensions
     db.init_app(app)
-    migrate.init_app(app, db)  # Initialize Flask-Migrate with app and db
+    migrate.init_app(app, db)  # Initialise Flask-Migrate with app and db
 
     Bootstrap5(app)
 
-    # Initialize the login manager
+    # Initialise the login manager
     login_manager = LoginManager()
     login_manager.login_view = 'auth.login'  # Set the login view
     login_manager.init_app(app)
@@ -35,7 +35,7 @@ def create_app():
     def load_user(user_id):
         return db.session.scalar(db.select(User).where(User.id == user_id))
 
-    # Register blueprints after initializing the app
+    # Register blueprints after initialising the app
     from .views import main_bp
     app.register_blueprint(main_bp)
 

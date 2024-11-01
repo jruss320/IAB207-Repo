@@ -123,7 +123,7 @@ def event_detail(event_id):
 
     related_events = Event.query.filter(Event.id != event_id).limit(2).all()
 
-    form = CommentForm()  # Initialize the comment form
+    form = CommentForm()  # Initialise the comment form
 
     if form.validate_on_submit():
         comment = Comment(
@@ -164,7 +164,7 @@ def search():
     return render_template('event_view.html', events=events, search_query=query)
 
 # Price per ticket
-TICKET_PRICE = 20.00  # Example price per ticket
+TICKET_PRICE = 20.00  
 
 @main_bp.route('/event/<int:event_id>/book', methods=['GET', 'POST'])
 @login_required
@@ -204,9 +204,9 @@ def book_tickets(event_id):
 def event_edit(event_id):
     event = db.session.get(Event, event_id)
     
-    # Check if the event exists and if the user is authorized
+    # Check if the event exists and if the user is authorised
     if not event or event.user_id != current_user.id:
-        flash("You are not authorized to edit this event.")
+        flash("You are not authorised to edit this event.")
         return redirect(url_for('main.index'))
 
     form = EventForm(obj=event)  # Pre-fill form with event's current data
@@ -226,8 +226,7 @@ def event_edit(event_id):
         event.start_time = form.start_time.data
         event.end_date = form.end_date.data
         event.end_time = form.end_time.data
-        event.price_per_ticket = form.price_per_ticket.data  # <-- Add this line to update the price per ticket
-
+        event.price_per_ticket = form.price_per_ticket.data 
         # If a new image is uploaded, update the image file
         if form.image.data:
             filename = secure_filename(form.image.data.filename)
@@ -255,10 +254,10 @@ def event_cancel(event_id):
     event = db.session.get(Event, event_id)
     # Check if the current user is the owner of the event
     if event.user_id != current_user.id:
-        flash('You are not authorized to cancel this event.', 'danger')
+        flash('You are not authorised to cancel this event.', 'danger')
         return redirect(url_for('main.event_detail', event_id=event.id))
     
-    # Update the status to 'Cancelled' if authorized
+    # Update the status to 'Cancelled' if authorised
     event.status = 'Cancelled'
     db.session.commit()
     flash('Event has been cancelled.', 'info')

@@ -37,7 +37,7 @@
             <li><strong>Date:</strong> {{ event.start_date.strftime('%B %d, %Y') }} - {{ event.end_date.strftime('%B %d, %Y') }}</li>
             <li><strong>Time:</strong> {{ event.start_time.strftime('%I:%M %p') }} - {{ event.end_time.strftime('%I:%M %p') }}</li>
             <li><strong>Location:</strong> {{ event.location_name }}, {{ event.address }}, {{ event.city }}, {{ event.state }}, {{ event.zip_code }}</li>
-            <li><strong>Organizer:</strong> {{ event.owner.user_name }}</li> <!-- Displays creator's username -->
+            <li><strong>Organiser:</strong> {{ event.owner.user_name }}</li> <!-- Displays creator's username -->
             <li><strong>Description:</strong> {{ event.description }}</li>
             <li><strong>Price:</strong> ${{ "%.2f"|format(event.price_per_ticket) }}</li>
         </ul>
