@@ -30,6 +30,7 @@
             <li><strong>Location:</strong> {{ event.location_name }}, {{ event.address }}, {{ event.city }}, {{ event.state }}, {{ event.zip_code }}</li>
             <li><strong>Organizer:</strong> {{ event.owner.user_name }}</li> <!-- Displays creator's username -->
             <li><strong>Description:</strong> {{ event.description }}</li>
+            <li><strong>Price:</strong> ${{ "%.2f"|format(event.price_per_ticket) }}</li>
         </ul>
 
         <!-- Book Tickets Button (Only for Logged-in Users) -->

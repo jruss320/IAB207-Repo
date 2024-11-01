@@ -176,33 +176,50 @@ def book_tickets(event_id):
 @login_required
 def event_edit(event_id):
     event = db.session.get(Event, event_id)
+    
+    # Check if the event exists and if the user is authorized
     if not event or event.user_id != current_user.id:
         flash("You are not authorized to edit this event.")
         return redirect(url_for('main.index'))
 
-    form = EventForm(obj=event)
+    form = EventForm(obj=event)  # Pre-fill form with event's current data
     
+    # Check if the form was submitted and validated
     if form.validate_on_submit():
-        form.populate_obj(event)  # Populates the event object with form data
-        # If a new image is uploaded
+        # Assign the form data to the event fields
+        event.name = form.name.data
+        event.description = form.description.data
+        event.category = form.category.data
+        event.location_name = form.location_name.data
+        event.address = form.address.data
+        event.city = form.city.data
+        event.state = form.state.data
+        event.zip_code = form.zip_code.data
+        event.start_date = form.start_date.data
+        event.start_time = form.start_time.data
+        event.end_date = form.end_date.data
+        event.end_time = form.end_time.data
+        event.price_per_ticket = form.price_per_ticket.data  # <-- Add this line to update the price per ticket
+
+        # If a new image is uploaded, update the image file
         if form.image.data:
-            image_file = form.image.data
-            filename = secure_filename(image_file.filename)
+            filename = secure_filename(form.image.data.filename)
             image_path = os.path.join(current_app.config['UPLOAD_FOLDER'], filename)
-            image_file.save(image_path)
+            form.image.data.save(image_path)
             event.image_url = f"static/uploads/{filename}"
-        
+
+        # Commit the updates to the database
         try:
             db.session.commit()
-            flash("Event updated successfully.", "success")
-            return redirect(url_for('main.event_detail', event_id=event.id))
+            flash("Event updated successfully!", "success")
         except Exception as e:
             db.session.rollback()
             flash("Error updating event. Please try again.", "danger")
-    
+
+        # Redirect to the event details page after updating
+        return redirect(url_for('main.event_detail', event_id=event.id))
+
     return render_template('event_edit.html', form=form, event=event)
-
-
 
 
 @main_bp.route('/event/<int:event_id>/cancel', methods=['POST'])
