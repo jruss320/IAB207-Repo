@@ -99,6 +99,13 @@
                     {{ form.end_time(class='form-control', type='time', required=True) }}
                 </div>
             </div>
+            <div class="form-group">
+                <label for="eventPrice">Price Per Ticket</label>
+                {{ form.price_per_ticket(class='form-control', placeholder='Enter price per ticket', required=True) }}
+                {% for error in form.price_per_ticket.errors %}
+                    <div class="alert alert-danger">{{ error }}</div>
+                {% endfor %}
+            </div>
             <button type="submit" class="btn btn-primary">Submit Event</button>
             <a href="{{ url_for('main.index') }}" class="btn btn-secondary ml-2">Cancel</a> <!-- Cancel button -->
         </form>

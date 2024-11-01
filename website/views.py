@@ -1,7 +1,7 @@
 from flask import Blueprint, current_app, render_template, redirect, url_for, flash, request
 from flask_login import login_required, current_user
-from .forms import EventForm
-from .models import Event
+from .forms import EventForm, TicketBookingForm
+from .models import Event, Order
 from . import db
 from werkzeug.utils import secure_filename
 import os
@@ -38,6 +38,7 @@ def event_create():
         end_date = form.end_date.data
         end_time = form.end_time.data
         user_id = current_user.id
+        price_per_ticket=form.price_per_ticket.data
         
         # Handle the image upload
         image_file = form.image.data
@@ -65,7 +66,8 @@ def event_create():
             start_time=start_time,
             end_date=end_date,
             end_time=end_time,
-            user_id=user_id
+            user_id=user_id,
+            price_per_ticket=price_per_ticket
         )
 
         # Add to database
@@ -149,9 +151,9 @@ def book_tickets(event_id):
 
     if form.validate_on_submit():
         quantity = form.quantity.data
-        total_price = quantity * TICKET_PRICE
+        price_per_ticket = event.price_per_ticket  # Get the price per ticket from the event model
+        total_price = quantity * price_per_ticket
 
-        # Create a new order
         order = Order(
             quantity=quantity,
             price=total_price,
@@ -159,18 +161,16 @@ def book_tickets(event_id):
             event_id=event.id
         )
 
-        # Add and commit order to database
         db.session.add(order)
-        try:
-            db.session.commit()
-            flash('Tickets booked successfully!', 'success')
-            return redirect(url_for('main.event_detail', event_id=event_id))
-        except Exception as e:
-            db.session.rollback()
-            flash('Error booking tickets. Please try again.', 'danger')
+        db.session.commit()  # Commit the order to the database
+
+        # Print confirmation message to the terminal
+        print(f"Order confirmed: {quantity} ticket(s) booked for '{event.name}' by user ID {current_user.id}.")
+
+        flash('Tickets booked successfully!', 'success')
+        return redirect(url_for('main.event_view'))
 
     return render_template('book_tickets.html', event=event, form=form)
-
 
 @main_bp.route('/event/<int:event_id>/update', methods=['GET', 'POST'])
 @login_required

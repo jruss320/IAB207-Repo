@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
-from wtforms.fields import TextAreaField, SubmitField, StringField, SelectField, FileField, TimeField, PasswordField, DateTimeField
-from wtforms.validators import InputRequired, Length, Email, EqualTo, DataRequired
+from wtforms.fields import TextAreaField, IntegerField, SubmitField, StringField, SelectField, DecimalField, FileField, TimeField, PasswordField, DateTimeField
+from wtforms.validators import InputRequired, Length, Email, EqualTo, DataRequired, NumberRange
 
 # creates the login information
 class LoginForm(FlaskForm):
@@ -39,4 +39,9 @@ class EventForm(FlaskForm):
     start_time = TimeField('Start Time', format='%H:%M', validators=[DataRequired()])
     end_date = DateTimeField('End Date', format='%Y-%m-%d', validators=[DataRequired()])
     end_time = TimeField('End Time', format='%H:%M', validators=[DataRequired()])
+    price_per_ticket = DecimalField('Price Per Ticket', places=2, validators=[DataRequired(), NumberRange(min=0, message='Price must be a positive number.')])
     submit = SubmitField('Create Event')
+
+class TicketBookingForm(FlaskForm):
+    quantity = IntegerField('Number of Tickets', validators=[DataRequired(), NumberRange(min=1, message="Please select at least 1 ticket.")])
+    submit = SubmitField('Book Tickets')

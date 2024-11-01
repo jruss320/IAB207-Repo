@@ -40,8 +40,9 @@ class Event(db.Model):
     end_date = db.Column(db.Date, nullable=False)
     end_time = db.Column(db.Time, nullable=False)
 
-    # Event creator
+    # Event creator and Price
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    price_per_ticket = db.Column(db.Float, nullable=False, default=0.0)
     
     # Relationships
     comments = db.relationship('Comment', backref='event', lazy=True)
