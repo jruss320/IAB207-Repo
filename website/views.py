@@ -172,24 +172,38 @@ def book_tickets(event_id):
 
     return render_template('book_tickets.html', event=event, form=form)
 
-@main_bp.route('/event/<int:event_id>/update', methods=['GET', 'POST'])
+@main_bp.route('/event/<int:event_id>/edit', methods=['GET', 'POST'])
 @login_required
-def event_update(event_id):
+def event_edit(event_id):
     event = db.session.get(Event, event_id)
-    # Check if the current user is the owner of the event
-    if event.user_id != current_user.id:
-        flash('You are not authorized to update this event.', 'danger')
-        return redirect(url_for('main.event_detail', event_id=event.id))
-    
+    if not event or event.user_id != current_user.id:
+        flash("You are not authorized to edit this event.")
+        return redirect(url_for('main.index'))
+
     form = EventForm(obj=event)
-    if request.method == 'POST' and form.validate_on_submit():
-        # Update event details (excluding status)
-        form.populate_obj(event)
-        db.session.commit()
-        flash('Event updated successfully!', 'success')
-        return redirect(url_for('main.event_detail', event_id=event.id))
     
-    return render_template('event_update.html', form=form, event=event)
+    if form.validate_on_submit():
+        form.populate_obj(event)  # Populates the event object with form data
+        # If a new image is uploaded
+        if form.image.data:
+            image_file = form.image.data
+            filename = secure_filename(image_file.filename)
+            image_path = os.path.join(current_app.config['UPLOAD_FOLDER'], filename)
+            image_file.save(image_path)
+            event.image_url = f"static/uploads/{filename}"
+        
+        try:
+            db.session.commit()
+            flash("Event updated successfully.", "success")
+            return redirect(url_for('main.event_detail', event_id=event.id))
+        except Exception as e:
+            db.session.rollback()
+            flash("Error updating event. Please try again.", "danger")
+    
+    return render_template('event_edit.html', form=form, event=event)
+
+
+
 
 @main_bp.route('/event/<int:event_id>/cancel', methods=['POST'])
 @login_required
