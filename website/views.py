@@ -131,3 +131,38 @@ def search():
         events = []  # No results if the query is empty
 
     return render_template('event_view.html', events=events, search_query=query)
+
+@main_bp.route('/event/<int:event_id>/update', methods=['GET', 'POST'])
+@login_required
+def event_update(event_id):
+    event = db.session.get(Event, event_id)
+    # Check if the current user is the owner of the event
+    if event.user_id != current_user.id:
+        flash('You are not authorized to update this event.', 'danger')
+        return redirect(url_for('main.event_detail', event_id=event.id))
+    
+    form = EventForm(obj=event)
+    if request.method == 'POST' and form.validate_on_submit():
+        # Update event details (excluding status)
+        form.populate_obj(event)
+        db.session.commit()
+        flash('Event updated successfully!', 'success')
+        return redirect(url_for('main.event_detail', event_id=event.id))
+    
+    return render_template('event_update.html', form=form, event=event)
+
+@main_bp.route('/event/<int:event_id>/cancel', methods=['POST'])
+@login_required
+def event_cancel(event_id):
+    event = db.session.get(Event, event_id)
+    # Check if the current user is the owner of the event
+    if event.user_id != current_user.id:
+        flash('You are not authorized to cancel this event.', 'danger')
+        return redirect(url_for('main.event_detail', event_id=event.id))
+    
+    # Update the status to 'Cancelled' if authorized
+    event.status = 'Cancelled'
+    db.session.commit()
+    flash('Event has been cancelled.', 'info')
+    return redirect(url_for('main.event_detail', event_id=event.id))
+
