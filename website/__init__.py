@@ -16,9 +16,10 @@ def create_app():
    app.debug = True  # Should be set to false in a production environment
    app.secret_key = 'somesecretkey'
    app.config['SQLALCHEMY_DATABASE_URI'] = f"sqlite:///{os.path.join(app.instance_path, 'sitedata.sqlite')}"
-   app.config['UPLOAD_FOLDER'] = 'static/uploads'  # Path for image uploads
+   app.config['UPLOAD_FOLDER'] = os.path.join('website', 'static', 'uploads')  # Path for image uploads
 
    # Ensure the upload folder exists
+   
    os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
 
    # Initialize extensions
@@ -42,5 +43,7 @@ def create_app():
 
    from . import auth
    app.register_blueprint(auth.auth_bp)
-    
+   
+
+
    return app
