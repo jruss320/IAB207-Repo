@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Tickets for {{ event.name }}</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="{{ url_for('static', filename='styles/styles.css') }}" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-4">
+        <h2>Book Tickets for {{ event.name }}</h2>
+        <img src="{{ url_for('static', filename=event.image_url[7:]) }}" alt="Event Image" class="img-fluid mb-3">
+        <p>{{ event.description }}</p>
+
+        <!-- Ticket Booking Form -->
+        <form action="{{ url_for('main.book_tickets', event_id=event.id) }}" method="POST">
+            {{ form.hidden_tag() }}
+            <div class="form-group">
+                <label for="quantity">Number of Tickets:</label>
+                {{ form.quantity(class="form-control") }}
+            </div>
+            <button type="submit" class="btn btn-primary">Book Tickets</button>
+        </form>
+    </div>
+
+    <footer class="bg-light py-4 text-center mt-4">
+        <p>&copy; 2024 Univents. All rights reserved.</p>
+    </footer>
+</body>
+</html>

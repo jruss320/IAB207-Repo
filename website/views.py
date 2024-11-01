@@ -5,6 +5,8 @@ from .models import Event
 from . import db
 from werkzeug.utils import secure_filename
 import os
+from datetime import datetime
+
 
 
 main_bp = Blueprint('main', __name__)
@@ -131,3 +133,40 @@ def search():
         events = []  # No results if the query is empty
 
     return render_template('event_view.html', events=events, search_query=query)
+
+# Price per ticket
+TICKET_PRICE = 20.00  # Example price per ticket
+
+@main_bp.route('/event/<int:event_id>/book', methods=['GET', 'POST'])
+@login_required
+def book_tickets(event_id):
+    event = db.session.get(Event, event_id)
+    if not event:
+        flash('Event not found.')
+        return redirect(url_for('main.event_view'))
+
+    form = TicketBookingForm()  # Assume a form similar to EventForm with a quantity field
+
+    if form.validate_on_submit():
+        quantity = form.quantity.data
+        total_price = quantity * TICKET_PRICE
+
+        # Create a new order
+        order = Order(
+            quantity=quantity,
+            price=total_price,
+            user_id=current_user.id,
+            event_id=event.id
+        )
+
+        # Add and commit order to database
+        db.session.add(order)
+        try:
+            db.session.commit()
+            flash('Tickets booked successfully!', 'success')
+            return redirect(url_for('main.event_detail', event_id=event_id))
+        except Exception as e:
+            db.session.rollback()
+            flash('Error booking tickets. Please try again.', 'danger')
+
+    return render_template('book_tickets.html', event=event, form=form)
