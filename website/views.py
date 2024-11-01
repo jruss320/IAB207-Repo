@@ -19,15 +19,13 @@ def index():
 @main_bp.route('/event/create', methods=['GET', 'POST'])
 @login_required
 def event_create():
-    form = EventForm()
-    image_url = None  # Initialize image_url
-
+    form = EventForm()  # Create an instance of your form
+    
     if request.method == 'POST' and form.validate_on_submit():
-        # Extract data from the form
+        # Extract form data
         name = form.name.data
         description = form.description.data
         category = form.category.data
-        image_file = form.image.data if form.image.data else None  # Retrieve image file
         location_name = form.location_name.data
         address = form.address.data
         city = form.city.data
@@ -38,23 +36,23 @@ def event_create():
         end_date = form.end_date.data
         end_time = form.end_time.data
         user_id = current_user.id
+        
+        # Handle the image upload
+        image_file = form.image.data
+        if image_file:
+            filename = secure_filename(image_file.filename)
+            image_path = os.path.join(current_app.config['UPLOAD_FOLDER'], filename)
+            image_file.save(image_path)  # Save the file
+            image_url = f"uploads/{filename}"  # Relative URL for the database
+        else:
+            image_url = None  # Or a default image URL
 
-        # Handle the image upload if image_file exists
-    if image_file:
-        filename = secure_filename(image_file.filename)
-        image_path = os.path.join(current_app.config['UPLOAD_FOLDER'], filename)
-        image_file.save(image_path)
-        image_url = f"uploads/{filename}"  # This should be relative to 'website/static'
-    else:
-        image_url = "uploads/default_event.jpg"  # Default path within 'static/uploads'
-  
-
-        # Create a new event
+        # Create new event instance
         new_event = Event(
             name=name,
             description=description,
             category=category,
-            image_url=image_url,  # Use constructed image URL
+            image_url=image_url,
             status='open',
             location_name=location_name,
             address=address,
@@ -68,17 +66,17 @@ def event_create():
             user_id=user_id
         )
 
-        # Add to the database
+        # Add to database
         db.session.add(new_event)
         try:
-            db.session.commit()
+            db.session.commit()  # Commit to the database
             flash('Event created successfully!', 'success')
             return redirect(url_for('main.index'))
         except Exception as e:
-            db.session.rollback()
+            db.session.rollback()  # Roll back the session on error
             flash('Error creating event. Please try again.', 'danger')
 
-    return render_template('event_create.html', form=form)
+    return render_template('event_create.html', form=form)  # Pass the form to the template
 
 
 # About Page Route
