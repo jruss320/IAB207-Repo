@@ -40,11 +40,14 @@ def event_create():
         user_id = current_user.id
 
         # Handle the image upload if image_file exists
-        if image_file:
-            filename = secure_filename(image_file.filename)
-            image_path = os.path.join(current_app.config['UPLOAD_FOLDER'], filename)
-            image_file.save(image_path)
-            image_url = f"static/uploads/{filename}"  # Relative path for image
+    if image_file:
+        filename = secure_filename(image_file.filename)
+        image_path = os.path.join(current_app.config['UPLOAD_FOLDER'], filename)
+        image_file.save(image_path)  # Save to static/uploads
+        image_url = f"uploads/{filename}"  # Store only 'uploads/filename' in the database
+    else:
+        image_url = "uploads/default_event.jpg"  # Default path within 'static/uploads'
+  
 
         # Create a new event
         new_event = Event(
