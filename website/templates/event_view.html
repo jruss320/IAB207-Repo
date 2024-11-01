@@ -19,14 +19,19 @@
         </div>
     </header>
 
+
     <!-- Main Content -->
     <div class="container mt-4">
-        <h2 class="text-center">All Events</h2>
+        {% if category %}
+            <h2>{{ category }} Events</h2>
+        {% else %}
+             <h2>All Events</h2>
+        {% endif %}
         <div class="row">
             {% for event in events %}
             <div class="col-md-4 mb-4">
                 <div class="card">
-                    <img src="{{ event.image_url }}" alt="Event Image" class="card-img-top">
+                    <img src="{{ url_for('static', filename=event.image_url.replace('static/', '')) }}" alt="Event Image" class="img-fluid mb-3">
                     <div class="card-body">
                         <h5 class="card-title">{{ event.name }}</h5>
                         <p class="card-text">{{ event.description }}</p>

@@ -100,3 +100,10 @@ def event_detail(event_id):
     related_events = Event.query.filter(Event.id != event_id).limit(2).all()  # Optional related events
     return render_template('event_detail.html', event=event, related_events=related_events)
 
+@main_bp.route('/events/category/<string:category>')
+def events_by_category(category):
+    events = Event.query.filter_by(category=category).all()
+    if not events:
+        flash(f'No events found in the "{category}" category.')
+        return redirect(url_for('main.event_view'))
+    return render_template('event_view.html', events=events, category=category)

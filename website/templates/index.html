@@ -95,7 +95,7 @@
                     <div class="card text-center">
                         <div class="card-body">
                             <h5 class="card-title">Sports</h5>
-                            <a href="#" class="btn btn-secondary">View All</a>
+                            <a href="{{ url_for('main.events_by_category', category='Sports') }}" class="btn btn-secondary">View All Sports</a>
                         </div>
                     </div>
                 </div>
@@ -103,7 +103,7 @@
                     <div class="card text-center">
                         <div class="card-body">
                             <h5 class="card-title">Music</h5>
-                            <a href="#" class="btn btn-secondary">View All</a>
+                            <a href="{{ url_for('main.events_by_category', category='Music') }}" class="btn btn-secondary">View All Music</a>
                         </div>
                     </div>
                 </div>
@@ -111,7 +111,7 @@
                     <div class="card text-center">
                         <div class="card-body">
                             <h5 class="card-title">Arts</h5>
-                            <a href="#" class="btn btn-secondary">View All</a>
+                            <a href="{{ url_for('main.events_by_category', category='Technology') }}" class="btn btn-secondary">View All Technology</a>
                         </div>
                     </div>
                 </div>
