@@ -54,7 +54,7 @@ def event_create():
             description=description,
             category=category,
             image_url=image_url,
-            status='pending',  # Provide a default status here
+            status='open',  # Provide a default status here
             location_name=location_name,
             address=address,
             city=city,
