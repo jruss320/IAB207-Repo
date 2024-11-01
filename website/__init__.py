@@ -18,11 +18,6 @@ def create_app():
    app.config['SQLALCHEMY_DATABASE_URI'] = f"sqlite:///{os.path.join(app.instance_path, 'sitedata.sqlite')}"
    app.config['UPLOAD_FOLDER'] = 'website/static/uploads'
 
-
-   # Ensure the upload folder exists
-   
-   os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
-
    # Initialize extensions
    db.init_app(app)
    Bootstrap5(app)
