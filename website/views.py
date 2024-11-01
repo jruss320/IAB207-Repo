@@ -199,24 +199,55 @@ def book_tickets(event_id):
 
     return render_template('book_tickets.html', event=event, form=form)
 
-@main_bp.route('/event/<int:event_id>/update', methods=['GET', 'POST'])
+@main_bp.route('/event/<int:event_id>/edit', methods=['GET', 'POST'])
 @login_required
-def event_update(event_id):
+def event_edit(event_id):
     event = db.session.get(Event, event_id)
-    # Check if the current user is the owner of the event
-    if event.user_id != current_user.id:
-        flash('You are not authorized to update this event.', 'danger')
-        return redirect(url_for('main.event_detail', event_id=event.id))
     
-    form = EventForm(obj=event)
-    if request.method == 'POST' and form.validate_on_submit():
-        # Update event details (excluding status)
-        form.populate_obj(event)
-        db.session.commit()
-        flash('Event updated successfully!', 'success')
-        return redirect(url_for('main.event_detail', event_id=event.id))
+    # Check if the event exists and if the user is authorized
+    if not event or event.user_id != current_user.id:
+        flash("You are not authorized to edit this event.")
+        return redirect(url_for('main.index'))
+
+    form = EventForm(obj=event)  # Pre-fill form with event's current data
     
-    return render_template('event_update.html', form=form, event=event)
+    # Check if the form was submitted and validated
+    if form.validate_on_submit():
+        # Assign the form data to the event fields
+        event.name = form.name.data
+        event.description = form.description.data
+        event.category = form.category.data
+        event.location_name = form.location_name.data
+        event.address = form.address.data
+        event.city = form.city.data
+        event.state = form.state.data
+        event.zip_code = form.zip_code.data
+        event.start_date = form.start_date.data
+        event.start_time = form.start_time.data
+        event.end_date = form.end_date.data
+        event.end_time = form.end_time.data
+        event.price_per_ticket = form.price_per_ticket.data  # <-- Add this line to update the price per ticket
+
+        # If a new image is uploaded, update the image file
+        if form.image.data:
+            filename = secure_filename(form.image.data.filename)
+            image_path = os.path.join(current_app.config['UPLOAD_FOLDER'], filename)
+            form.image.data.save(image_path)
+            event.image_url = f"static/uploads/{filename}"
+
+        # Commit the updates to the database
+        try:
+            db.session.commit()
+            flash("Event updated successfully!", "success")
+        except Exception as e:
+            db.session.rollback()
+            flash("Error updating event. Please try again.", "danger")
+
+        # Redirect to the event details page after updating
+        return redirect(url_for('main.event_detail', event_id=event.id))
+
+    return render_template('event_edit.html', form=form, event=event)
+
 
 @main_bp.route('/event/<int:event_id>/cancel', methods=['POST'])
 @login_required
@@ -232,4 +263,11 @@ def event_cancel(event_id):
     db.session.commit()
     flash('Event has been cancelled.', 'info')
     return redirect(url_for('main.event_detail', event_id=event.id))
+
+@main_bp.route('/user_bookings')
+@login_required
+def user_bookings():
+    # Query orders for the current user
+    orders = Order.query.filter_by(user_id=current_user.id).all()
+    return render_template('user_bookings.html', orders=orders)
 

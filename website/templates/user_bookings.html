@@ -3,91 +3,51 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Booking History</title>
-    <!-- Bootstrap CSS -->
+    <title>Booking History</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Custom CSS -->
-    <link href="static/styles/styles.css" rel="stylesheet">
+    <link href="{{ url_for('static', filename='styles/styles.css') }}" rel="stylesheet">
 </head>
 <body>
 
-    <!-- Header -->
     <header class="bg-light py-3">
-        <div class="container d-flex justify-content-between align-items-center">
+        <div class="container">
             <h5 class="card-title">UNIVENTS</h5>
-            <nav>
-                <a href="index.html" class="mx-3 text-dark">Home</a>
-                <a href="#" class="mx-3 text-dark">Events</a>
-                <a href="#" class="mx-3 text-dark">Profile</a>
-                <a href="#" class="mx-3 text-dark">Logout</a>
-            </nav>
+            <a href="{{ url_for('main.index') }}" class="mx-3 text-dark">Home</a>
+            <a href="{{ url_for('main.user_bookings') }}" class="mx-3 text-dark">Booking History</a>
         </div>
     </header>
 
-    <!-- Page Title -->
     <div class="container mt-4">
-        <h2 class="mb-4">User Booking History</h2>
-
-        <!-- Booked Events List -->
-        <div class="row">
-            <!-- Event 1 -->
-            <div class="col-md-12 mb-3">
-                <div class="card">
-                    <div class="row no-gutters">
-                        <div class="col-md-4">
-                            <img src="static/img/campusfest.jpg" class="card-img" alt="Campusfest Image" style="height: 100%;">
-                        </div>
-                        <div class="col-md-8">
-                            <div class="card-body">
-                                <h5 class="card-title">Campus Fest 2024: A Weekend to Remember</h5>
-                                <p class="card-text"><strong>Booking ID:</strong> #123456</p>
-                                <p class="card-text"><strong>Booking Date:</strong> March 8, 2024</p>
-                                 <p class="card-text"><strong>Event Description:</strong> Kick off the semester with a bang! Campus Fest is your ultimate weekend escape filled with live music, student-run food stalls, games, and outdoor movie screenings. Get ready for three days of nonstop fun, meeting new friends, and making unforgettable memories.
-                                 Ideal For: First-year students, social butterflies, and anyone looking to break the ice.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <h2>Booking History</h2>
+        {% if orders %}
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Event Name</th>
+                        <th>Tickets Purchased</th>
+                        <th>Booking Date</th>
+                        <th>Total Cost</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for order in orders %}
+                    <tr>
+                        <td><a href="{{ url_for('main.event_detail', event_id=order.event.id) }}">{{ order.event.name }}</a></td>
+                        <td>{{ order.quantity }}</td>
+                        <td>{{ order.order_date.strftime('%B %d, %Y') }}</td>
+                        <td>${{ order.price }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p>No bookings found.</p>
+        {% endif %}
     </div>
 
-    <!-- Footer -->
-    <footer class="bg-light py-4 mt-4">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-4">
-                    <h5>Quick Links</h5>
-                    <ul class="list-unstyled">
-                        <li><a href="index.html">Home</a></li>
-                        <li><a href="#">Events</a></li>
-                        <li><a href="#">Profile</a></li>
-                        <li><a href="#">Logout</a></li>
-                    </ul>
-                </div>
-                <div class="col-md-4">
-                    <h5>Follow Us</h5>
-                    <ul class="list-unstyled">
-                        <li><a href="#">Facebook</a></li>
-                        <li><a href="#">Twitter</a></li>
-                        <li><a href="#">Instagram</a></li>
-                    </ul>
-                </div>
-                <div class="col-md-4">
-                    <h5>Contact Us</h5>
-                    <ul class="list-unstyled">
-                        <li>Email: info@example.com</li>
-                        <li>Phone: 123-456-7890</li>
-                        <li>Address: 123 Street, City, State, Zip Code</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
+    <footer class="bg-light py-4 text-center mt-4">
+        <p>&copy; 2024 Univents. All rights reserved.</p>
     </footer>
 
-    <!-- Bootstrap JS, Popper.js, and jQuery -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
