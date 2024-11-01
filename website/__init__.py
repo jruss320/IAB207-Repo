@@ -46,4 +46,13 @@ def create_app():
     from .views import get_local_time  # Import the function here
     app.jinja_env.globals.update(get_local_time=get_local_time)  # Update the Jinja2 globals
 
+    @app.errorhandler(404)
+    def page_not_found(e):
+        return render_template('404.html'), 404
+
+    # Error handler for 500 Internal Server Error
+    @app.errorhandler(500)
+    def internal_server_error(e):
+        return render_template('500.html'), 500
+
     return app
