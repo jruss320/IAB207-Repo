@@ -22,10 +22,13 @@
     <div class="container mt-4">
         <h2>{{ event.name }}</h2>
         <img src="{{ url_for('static', filename=event.image_url[7:]) }}" alt="Event Image" class="img-fluid mb-3">
-        <ul>
+        
+        <ul class="list-unstyled">
+            <li><strong>Category:</strong> {{ event.category }}</li>
             <li><strong>Date:</strong> {{ event.start_date.strftime('%B %d, %Y') }} - {{ event.end_date.strftime('%B %d, %Y') }}</li>
+            <li><strong>Time:</strong> {{ event.start_time.strftime('%I:%M %p') }} - {{ event.end_time.strftime('%I:%M %p') }}</li>
             <li><strong>Location:</strong> {{ event.location_name }}, {{ event.address }}, {{ event.city }}, {{ event.state }}, {{ event.zip_code }}</li>
-            <li><strong>Organiser:</strong> {{ event.owner.user_name }}</li>  <!-- Display creator's username here -->
+            <li><strong>Organizer:</strong> {{ event.owner.user_name }}</li> <!-- Displays creator's username -->
             <li><strong>Description:</strong> {{ event.description }}</li>
         </ul>
     </div>
