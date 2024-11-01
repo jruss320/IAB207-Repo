@@ -38,6 +38,31 @@
         {% endif %}
     </div>
 
+    <!-- Comment Section -->
+<div class="container mt-4">
+    <h4>Comments</h4>
+    
+    <!-- Comment Form -->
+    {% if current_user.is_authenticated %}
+        <form method="POST">
+            {{ form.hidden_tag() }}
+            {{ form.content.label() }}
+            {{ form.content(class='form-control', rows=3) }}
+            {{ form.submit(class='btn btn-primary mt-2') }}
+        </form>
+    {% else %}
+        <p>Please <a href="{{ url_for('auth.login') }}">log in</a> to leave a comment.</p>
+    {% endif %}
+
+    <!-- Display Comments -->
+    {% for comment in comments %}
+        <div class="border p-2 mb-2">
+            <p><strong>{{ comment.commenter.user_name }}</strong> <em>{{ comment.date_posted.strftime('%B %d, %Y at %I:%M %p') }}</em></p>
+            <p>{{ comment.content }}</p>
+        </div>
+    {% endfor %}
+</div>
+
     <!-- Footer -->
     <footer class="bg-light py-4 text-center mt-4">
         <p>&copy; 2024 Univents. All rights reserved.</p>

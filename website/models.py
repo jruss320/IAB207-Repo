@@ -12,9 +12,11 @@ class User(db.Model, UserMixin):
     password_hash = db.Column(db.String(100), nullable=False)
     contact_number = db.Column(db.String(15), nullable=False)
     street_address = db.Column(db.String(150), nullable=False)
+    
     events = db.relationship('Event', backref='owner', lazy=True)
     orders = db.relationship('Order', backref='user', lazy=True)
-    comments = db.relationship('Comment', backref='user', lazy=True)
+    comments = db.relationship('Comment', back_populates='commenter')  # Define explicitly
+
 
 # Event Model
 class Event(db.Model):
@@ -45,25 +47,32 @@ class Event(db.Model):
     price_per_ticket = db.Column(db.Float, nullable=False, default=0.0)
     
     # Relationships
-    comments = db.relationship('Comment', backref='event', lazy=True)
+    comments = db.relationship('Comment', backref='event', lazy=True)  # Keep this line
     orders = db.relationship('Order', backref='event', lazy=True)
 
     def __repr__(self):
         return f"<Event {self.name}>"
-        # Method to check if the event is in the past or sold out
+
+    # Method to check if the event is in the past or sold out
     def update_status(self):
         if self.status != 'Cancelled':
             if self.start_date < datetime.utcnow().date():
                 self.status = 'Inactive'
             # Add logic for sold-out status if needed
 
+
 # Comment Model
 class Comment(db.Model):
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    content = db.Column(db.Text, nullable=False)
-    date_posted = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
+    id = db.Column(db.Integer, primary_key=True)
+    content = db.Column(db.String, nullable=False)
+    date_posted = db.Column(db.DateTime, default=datetime.utcnow)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    commenter = db.relationship('User', back_populates='comments')  # Define explicitly
     event_id = db.Column(db.Integer, db.ForeignKey('event.id'), nullable=False)
+
+
+
+
 
 # Order Model
 class Order(db.Model):

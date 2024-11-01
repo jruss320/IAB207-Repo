@@ -45,3 +45,7 @@ class EventForm(FlaskForm):
 class TicketBookingForm(FlaskForm):
     quantity = IntegerField('Number of Tickets', validators=[DataRequired(), NumberRange(min=1, message="Please select at least 1 ticket.")])
     submit = SubmitField('Book Tickets')
+
+class CommentForm(FlaskForm):
+    content = TextAreaField('Comment', validators=[DataRequired()])
+    submit = SubmitField('Post Comment')

@@ -1,12 +1,21 @@
+import pytz
 from flask import Blueprint, current_app, render_template, redirect, url_for, flash, request
 from flask_login import login_required, current_user
-from .forms import EventForm, TicketBookingForm
-from .models import Event, Order
+from .forms import EventForm, TicketBookingForm, CommentForm
+from .models import Event, Order, Comment
 from . import db
 from werkzeug.utils import secure_filename
 import os
 from datetime import datetime
+main_bp = Blueprint('main', __name__)
 
+
+
+
+# Set the timezone to Brisbane (AEST)
+def get_local_time(utc_time):
+    local_tz = pytz.timezone("Australia/Brisbane")
+    return utc_time.replace(tzinfo=pytz.utc).astimezone(local_tz)
 
 
 main_bp = Blueprint('main', __name__)
@@ -105,15 +114,33 @@ def event_view():
     return render_template('event_view.html', events=events, category=category, search_query=search_query)
 
 
-@main_bp.route('/event/<int:event_id>')
+@main_bp.route('/event/<int:event_id>', methods=['GET', 'POST'])
 def event_detail(event_id):
     event = db.session.get(Event, event_id)
     if not event:
         flash('Event not found.')
         return redirect(url_for('main.event_view'))
-    
-    related_events = Event.query.filter(Event.id != event_id).limit(2).all()  # Optional related events
-    return render_template('event_detail.html', event=event, related_events=related_events)
+
+    related_events = Event.query.filter(Event.id != event_id).limit(2).all()
+
+    form = CommentForm()  # Initialize the comment form
+
+    if form.validate_on_submit():
+        comment = Comment(
+            content=form.content.data,
+            user_id=current_user.id,
+            event_id=event.id
+        )
+        db.session.add(comment)
+        db.session.commit()  # Commit the comment to the database
+        flash('Comment added successfully!', 'success')
+        return redirect(url_for('main.event_detail', event_id=event.id))  # Redirect to the same page to see the new comment
+
+    # Fetch existing comments with user information
+    comments = Comment.query.filter_by(event_id=event_id).options(db.joinedload(Comment.commenter)).order_by(Comment.date_posted.desc()).all()
+
+    return render_template('event_detail.html', event=event, related_events=related_events, form=form, comments=comments)
+
 
 @main_bp.route('/events/category/<string:category>')
 def events_by_category(category):
