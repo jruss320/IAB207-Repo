@@ -25,7 +25,7 @@ class Event(db.Model):
     description = db.Column(db.Text, nullable=False)
     category = db.Column(db.String(50), nullable=False)
     image_url = db.Column(db.String(200), nullable=False)
-    status = db.Column(db.String(20), nullable=False)  # 'Open', 'Inactive', 'Sold Out', 'Cancelled'
+    status = db.Column(db.String(20), default='Open')  # 'Open', 'Inactive', 'Sold Out', 'Cancelled'
     
     # Location details
     location_name = db.Column(db.String(100), nullable=False)
@@ -49,6 +49,12 @@ class Event(db.Model):
 
     def __repr__(self):
         return f"<Event {self.name}>"
+        # Method to check if the event is in the past or sold out
+    def update_status(self):
+        if self.status != 'Cancelled':
+            if self.start_date < datetime.utcnow().date():
+                self.status = 'Inactive'
+            # Add logic for sold-out status if needed
 
 # Comment Model
 class Comment(db.Model):
