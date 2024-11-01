@@ -43,7 +43,7 @@ def event_create():
             filename = secure_filename(image_file.filename)
             image_path = os.path.join(current_app.config['UPLOAD_FOLDER'], filename)
             image_file.save(image_path)  # Save the file
-            image_url = f"uploads/{filename}"  # Relative URL for the database
+            image_url = f"static/uploads/{filename}"  # Relative URL for the database
         else:
             image_url = None  # Or a default image URL
 
